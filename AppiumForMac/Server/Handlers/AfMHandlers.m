@@ -555,6 +555,7 @@
                 }
                 
                 return [AppiumMacHTTPJSONResponse responseWithJson:elements status:kAfMStatusCodeSuccess session:session.sessionId];
+                
             } else {
                 return [AppiumMacHTTPJSONResponse responseWithJson:nil status:kAfMStatusCodeNoSuchElement session:session.sessionId];
             }
