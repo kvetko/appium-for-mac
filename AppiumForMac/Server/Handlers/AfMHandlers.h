@@ -187,6 +187,8 @@
 // POST /session/:sessionId/touch/up
 // POST /session/:sessionId/touch/move
 // POST /session/:sessionId/touch/scroll
+- (AppiumMacHTTPJSONResponse *)post_touch_scroll:(NSString*)path data:(NSData *)postData;
+
 // POST /session/:sessionId/touch/scroll
 // POST /session/:sessionId/touch/doubleclick
 // POST /session/:sessionId/touch/longclick

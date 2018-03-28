@@ -142,6 +142,8 @@ extern NSString * const kCookieDiagnosticsDirectory;
 - (int) checkElement:(id)element;
 - (BOOL)isElementDisplayed:(id)element;
 -(BOOL) clickElement:(id)element;
+-(BOOL) scrollDownElement:(id)element;
+-(BOOL) scrollUpElement:(id)element;
 -(void) closeWindow;
 - (NSString *)executeShellScript:(NSString *)script;
 -(NSDictionary*) pageSource;

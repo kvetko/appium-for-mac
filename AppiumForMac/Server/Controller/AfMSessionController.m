@@ -568,6 +568,34 @@ NSInteger const kPredicateRightOperand = 1;
     return NO;
 }
 
+-(BOOL) scrollDownElement:(id)element
+{
+    if (element == nil)
+    {
+        return NO;
+    }
+    if ([element isKindOfClass:[PFUIElement class]])
+    {
+        [(PFUIElement*)element performAction:@"AXScrollDownByPage"];
+        return YES;
+    }
+    return NO;
+}
+
+-(BOOL) scrollUpElement:(id)element
+{
+    if (element == nil)
+    {
+        return NO;
+    }
+    if ([element isKindOfClass:[PFUIElement class]])
+    {
+        [(PFUIElement*)element performAction:@"AXScrollUpByPage"];
+        return YES;
+    }
+    return NO;
+}
+
 -(void) closeWindow
 {
 	// TODO: Implement working close window method

@@ -990,6 +990,29 @@
 // Scroll on the touch screen using finger based motion events. Use this command to start scrolling at a particular screen location.
 // (The difference between this and the next command is an extra JSON paremeter for this command:
 //      element - {string} ID of the element where the scroll starts.)
+- (AppiumMacHTTPJSONResponse *)post_touch_scroll:(NSString*)path data:(NSData *)postData;
+{
+    return [self executeWebDriverCommandWithPath:path data:postData onMainThread:YES commandBlock:^(AfMSessionController *session, NSDictionary *commandParams, int *statusCode)
+            {
+                id element = [commandParams objectForKey:@"elementObject"];
+                int yoffset = (int)[commandParams objectForKey:@"yoffset"];
+                
+                if (![session isElementDisplayed:element]) {
+                    return [AppiumMacHTTPJSONResponse responseWithJsonError:kAfMStatusCodeElementNotVisible session:session.sessionId];
+                }
+                
+                BOOL result;
+                if (yoffset > 0) {
+                    result = [session scrollUpElement:element];
+                }
+                else {
+                    result = [session scrollDownElement:element];
+                }
+                
+                return result ? [AppiumMacHTTPJSONResponse responseWithJson:nil status:kAfMStatusCodeSuccess session:session.sessionId] :
+                [AppiumMacHTTPJSONResponse responseWithJsonError:kAfMStatusCodeUnknownError session:session.sessionId];
+            }];
+}
 
 // POST /session/:sessionId/touch/scroll
 // Scroll on the touch screen using finger based motion events. Use this command if you don't care where the scroll starts on the screen.
