@@ -537,7 +537,7 @@
         AfMElementLocator *locator = [AfMElementLocator locatorWithSession:session using:using value:value];
         
         // initialize status as though no element were found
-        *statusCode = kAfMStatusCodeNoSuchElement;
+        *statusCode = kAfMStatusCodeSuccess;
         
         if (locator != nil)
         {
@@ -556,7 +556,7 @@
                 
                 return [AppiumMacHTTPJSONResponse responseWithJson:elements status:kAfMStatusCodeSuccess session:session.sessionId];
             }
-            return [AppiumMacHTTPJSONResponse responseWithJson:nil status:kAfMStatusCodeNoSuchElement session:session.sessionId];
+            return [AppiumMacHTTPJSONResponse responseWithJson:@[] status:kAfMStatusCodeSuccess session:session.sessionId];
         }
         return [AppiumMacHTTPJSONResponse responseWithJsonError:*statusCode session:session.sessionId];
     }];
@@ -595,7 +595,7 @@
             }
         }
         
-        return [AppiumMacHTTPJSONResponse responseWithJsonError:*statusCode session:session.sessionId];
+        return [AppiumMacHTTPJSONResponse responseWithJson: @[] status:kAfMStatusCodeSuccess session:session.sessionId];
     }];
 }
 
@@ -612,7 +612,7 @@
         AfMElementLocator *locator = [AfMElementLocator locatorWithSession:session using:using value:value];
         
         // initialize status as though no element were found
-        *statusCode = kAfMStatusCodeNoSuchElement;
+        *statusCode = kAfMStatusCodeSuccess;
         
         if (locator != nil)
         {
@@ -632,7 +632,7 @@
             }
         }
         
-        return [AppiumMacHTTPJSONResponse responseWithJsonError:*statusCode session:session.sessionId];
+        return [AppiumMacHTTPJSONResponse responseWithJson: @[] status:kAfMStatusCodeSuccess session:session.sessionId];
     }];
 }
 
