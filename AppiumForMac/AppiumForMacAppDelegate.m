@@ -41,21 +41,14 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	{
 		DDLogError(@"Error starting HTTP Server: %@", error);
 	}
-    
     self.notesWC = [[NotesWindowController alloc] initWithWindowNibName:@"NotesWindow"];
-    BOOL shouldShowNotesWindow = [[NSUserDefaults standardUserDefaults] boolForKey:kShowNotesWindowOnLaunchKey];
-    if (shouldShowNotesWindow) {
-        [self showNotesWindow:nil];
-    }
+    [self showNotesWindow: nil];
     self.axPathUtility = [[AXPathUtility alloc] init];
     [self startMonitoring];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender;
 {
-    BOOL notesWindowShowing = self.notesWC.window.visible;
-    [[NSUserDefaults standardUserDefaults] setBool:notesWindowShowing forKey:kShowNotesWindowOnLaunchKey];
-    
     return NSTerminateNow;
 }
 

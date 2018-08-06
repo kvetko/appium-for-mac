@@ -32,13 +32,11 @@ NSString * const kShowNotesWindowOnLaunchKey = @"showNotesWindowOnLaunch";
     NSString *savedString = [[NSUserDefaults standardUserDefaults] stringForKey:kNotesWindowTextKey];
     if (savedString) {
         [self.notesTextField setStringValue:savedString];
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
         NSText* textEditor = [self.window fieldEditor:YES forObject:self.notesTextField];
         NSRange range = {savedString.length, 0};
         [textEditor setSelectedRange:range];
-    });
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        [textEditor scrollRangeToVisible:range];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newTextPosted:) name:kNewTextPostedNotification object:nil];
 }
 

@@ -1339,7 +1339,7 @@ const NSTimeInterval kModifierPause = 0.05;
 // The predicate must be something like @"@AXTitle='Window'", always with an "=" sign.
 - (NSDictionary *)parsePredicate:(NSString *)predicate
 {
-    //NSLog(@"parsePredicate: %@", predicate);
+    NSLog(@"parsePredicate: %@", predicate);
     
     NSMutableDictionary *predicateDictionary = [@{} mutableCopy];
     
@@ -1376,7 +1376,7 @@ const NSTimeInterval kModifierPause = 0.05;
     NSMutableArray *predicateOperations = [@[] mutableCopy];
     
     for (NSString *operationString in operationStrings) {
-        //NSLog(@"operationString: %@", operationString);
+        NSLog(@"operationString: %@", operationString);
         NSMutableDictionary *operationDict = [@{} mutableCopy];
 
         operationDict[kPredicateComparisonOperation] = kPredicateNone;
@@ -1431,6 +1431,7 @@ const NSTimeInterval kModifierPause = 0.05;
                 // Operation can only have a left side a a right side.
                 operationDict = nil;
         }
+        
         if (operationDict) {
             [predicateOperations addObject:operationDict];
         } else {
@@ -1441,12 +1442,12 @@ const NSTimeInterval kModifierPause = 0.05;
     
     if ([predicateOperations count] == 0) {
         // A predicate must contain at least one comparison. If only one comparison, it can be a name-value pair, or an index.
-        //NSLog(@"parsePredicate: RETURNS NIL BECAUSE NO PREDICATE OPERATIONS");
+        NSLog(@"parsePredicate: RETURNS NIL BECAUSE NO PREDICATE OPERATIONS");
         return nil;
     }
     
     predicateDictionary[kPredicateOperations] = predicateOperations;
-    //NSLog(@"parsePredicate: predicateDictionary: %@", predicateDictionary);
+    NSLog(@"parsePredicate: predicateDictionary: %@", predicateDictionary);
     return predicateDictionary;
 }
 
