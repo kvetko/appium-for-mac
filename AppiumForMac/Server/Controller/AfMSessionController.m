@@ -365,7 +365,7 @@ NSInteger const kPredicateRightOperand = 1;
 - (void)setDesiredCapabilities:(NSDictionary *)desiredCapabilities
 {
     if (desiredCapabilities) {
-//        NSLog(@"desiredCapabilities %@", desiredCapabilities);
+        NSLog(@"desiredCapabilities %@", desiredCapabilities);
         
         NSArray *cookies = desiredCapabilities[@"cookies"];
         if (cookies && [cookies isKindOfClass:[NSArray class]]) {
@@ -743,7 +743,6 @@ NSInteger const kPredicateRightOperand = 1;
     if (element && [element isKindOfClass:[PFUIElement class]]) {
         [element setAXFocused:[NSNumber numberWithBool:YES]];
     }
-    
     [self sendKeys:keys];
 }
 
@@ -764,7 +763,7 @@ NSInteger const kPredicateRightOperand = 1;
         }
         
         // Give the OS time to press and release keys. Going too fast will skip keystrokes.
-        const NSTimeInterval kMinimumKeyStrokeInterval = 0.05;
+        const NSTimeInterval kMinimumKeyStrokeInterval = 0.1f;
         for (NSString *thisChar in chars) {
             UniChar thisUnichar = [thisChar characterAtIndex:0];
             [self performWebDriverKeystroke:thisUnichar];
@@ -821,7 +820,7 @@ NSInteger const kPredicateRightOperand = 1;
 
 // Give the OS time to "actually" press and release the modifiers.
 // Going too fast will skip modifiers.
-const NSTimeInterval kModifierPause = 0.05;
+const NSTimeInterval kModifierPause = 0.1f;
 
 // WebDriver keystrokes are a hybrid of pressing and releasing:
 //  A modifier character will toggle the modifier from up to down and vice versa. 
@@ -919,13 +918,16 @@ const NSTimeInterval kModifierPause = 0.05;
 
 -(GDataXMLDocument*)xmlPageSource
 {
-	return [self xmlPageSourceFromRootUIElement:nil pathMap:nil xPath:nil];
+	return [self xmlPageSourceFromRootUIElement:[self applicationForName:self.currentApplicationName] pathMap:nil xPath:nil];
 }
 
 -(GDataXMLDocument*)xmlPageSourceFromRootUIElement:(PFUIElement*)rootUIElement pathMap:(NSMutableDictionary*)pathMap xPath:(NSString *)xPath
 {
-    //NSLog(@"xmlPageSourceFromRootUIElement:%@ pathMap:%@ xPath:%@", [rootUIElement debugDescription], pathMap, xPath);
-
+    NSLog(@"xmlPageSourceFromRootUIElement:%@ pathMap:%@ xPath:%@", [rootUIElement debugDescription], pathMap, xPath);
+    if (self.currentApplication == nil){
+        
+    }
+    
 	if (rootUIElement == nil) {
 		// self.allWindows includes the application uiElement as item 0, and self.currentWindow usually returns the item 0.
         // So, rootUIElement is usually the application element here.
@@ -1873,8 +1875,9 @@ const NSTimeInterval kModifierPause = 0.05;
 #pragma mark - Notifications
 - (void)fnKeyTrigger:(NSNotification *)notification
 {
-    NSLog(@"fnKeyTrigger: session isCanceled set YES: %@", self.sessionId);
-    self.isCanceled = YES;
+    //NSLog(@"fnKeyTrigger: session isCanceled set YES: %@", self.sessionId);
+    //Fixme: WTF???
+    //self.isCanceled = YES;
 }
 
 #pragma mark - Diagnostics

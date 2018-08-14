@@ -487,7 +487,7 @@
     {
         // xml page source
         NSString *pageSource = [[NSString alloc]initWithData:[session xmlPageSource].XMLData encoding:NSUTF8StringEncoding];
-        //NSLog(@"%@", pageSource);
+        NSLog(@"%@", pageSource);
         return [AppiumMacHTTPJSONResponse responseWithJson:pageSource status:kAfMStatusCodeSuccess session:session.sessionId];
         
         // json page source
@@ -1064,12 +1064,12 @@
     path = [path stringByReplacingOccurrencesOfString:@"/wd/hub/" withString:@"/"];
     NSArray *pathComponents = [[path substringFromIndex:1] componentsSeparatedByString:@"/"];
     
-//    NSLog(@"method: %@", method);
-//    NSLog(@"path: %@", path);
-//    if ([method isEqualToString:@"POST"]) {
-//        NSDictionary *postParams = [Utility dictionaryFromPostData:postData];
-//        NSLog(@"postParams: %@", postParams);
-//    }
+    NSLog(@"method: %@", method);
+    NSLog(@"path: %@", path);
+    if ([method isEqualToString:@"POST"]) {
+        NSDictionary *postParams = [Utility dictionaryFromPostData:postData];
+        NSLog(@"postParams: %@", postParams);
+    }
     
     NSString *errorString = nil;
     
@@ -1100,7 +1100,7 @@
     }
     
     // We didn't find a method to handle this request. Report the bad news.
-//    NSLog(@"%@", errorString);
+    NSLog(@"%@", errorString);
     NSString *sessionId = nil;
     if (pathComponents.count >= 2 ) {
         sessionId = pathComponents[1];
