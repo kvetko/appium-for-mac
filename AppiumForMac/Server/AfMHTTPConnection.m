@@ -53,6 +53,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_VERBOSE;
 
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path
 {
+    NSLog(@"Handling request: %@: %@", method, path);
     // Let the AFM_SERVER.handlers try to handle the request.
     NSData *postData = [method isEqualToString:@"POST"] ? [request body] : nil;
     AppiumMacHTTPJSONResponse *handlerReturnValue = [AFM_SERVER.handlers httpResponseForMethod:method URI:path data:postData];

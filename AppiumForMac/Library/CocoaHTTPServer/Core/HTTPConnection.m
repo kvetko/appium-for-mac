@@ -1830,7 +1830,8 @@ static NSMutableArray *recentNonces;
 	// If you simply want to add a few extra header fields, see the preprocessErrorResponse: method.
 	// You can also use preprocessErrorResponse: to add an optional HTML body.
 	
-	HTTPLogWarn(@"HTTP Server: Error 400 - Bad Request (%@)", [self requestURI]);
+	NSLog(@"HTTP Server: Error 400 - Bad Request (%@)", [self requestURI]);
+
 	
 	// Status Code 400 - Bad Request
 	HTTPMessage *response = [[HTTPMessage alloc] initResponseWithStatusCode:400 description:nil version:HTTPVersion1_1];
@@ -2042,7 +2043,7 @@ static NSMutableArray *recentNonces;
 		BOOL result = [request appendData:data];
 		if (!result)
 		{
-			HTTPLogWarn(@"%@[%p]: Malformed request", THIS_FILE, self);
+			NSLog(@"%@[%p]: Malformed request", THIS_FILE, self);
 			
 			[self handleInvalidRequest:data];
 		}
@@ -2097,7 +2098,7 @@ static NSMutableArray *recentNonces;
 				{
 					if (contentLength == nil)
 					{
-						HTTPLogWarn(@"%@[%p]: Method expects request body, but had no specified Content-Length",
+						NSLog(@"%@[%p]: Method expects request body, but had no specified Content-Length",
 									THIS_FILE, self);
 						
 						[self handleInvalidRequest:nil];
@@ -2106,7 +2107,7 @@ static NSMutableArray *recentNonces;
 					
 					if (![NSNumber parseString:(NSString *)contentLength intoUInt64:&requestContentLength])
 					{
-						HTTPLogWarn(@"%@[%p]: Unable to parse Content-Length header into a valid number",
+						NSLog(@"%@[%p]: Unable to parse Content-Length header into a valid number",
 									THIS_FILE, self);
 						
 						[self handleInvalidRequest:nil];
@@ -2123,7 +2124,7 @@ static NSMutableArray *recentNonces;
 					
 					if (![NSNumber parseString:(NSString *)contentLength intoUInt64:&requestContentLength])
 					{
-						HTTPLogWarn(@"%@[%p]: Unable to parse Content-Length header into a valid number",
+						NSLog(@"%@[%p]: Unable to parse Content-Length header into a valid number",
 									THIS_FILE, self);
 						
 						[self handleInvalidRequest:nil];
@@ -2132,11 +2133,13 @@ static NSMutableArray *recentNonces;
 					
 					if (requestContentLength > 0)
 					{
-						HTTPLogWarn(@"%@[%p]: Method not expecting request body had non-zero Content-Length",
+						NSLog(@"%@[%p]: Method not expecting request body had non-zero Content-Length",
 									THIS_FILE, self);
 						
-						[self handleInvalidRequest:nil];
-						return;
+                        //FIXME enable this when this root cause issue gets fixed
+                        //Slenium is sending GET requests with body which resuls in failue on AFM side
+						//[self handleInvalidRequest:nil];
+						//return;
 					}
 				}
 				
@@ -2236,7 +2239,7 @@ static NSMutableArray *recentNonces;
 			
 			if (errno != 0)
 			{
-				HTTPLogWarn(@"%@[%p]: Method expects chunk size, but received something else", THIS_FILE, self);
+				NSLog(@"%@[%p]: Method expects chunk size, but received something else", THIS_FILE, self);
 				
 				[self handleInvalidRequest:nil];
 				return;
@@ -2301,7 +2304,7 @@ static NSMutableArray *recentNonces;
 			
 			if (![data isEqualToData:[GCDAsyncSocket CRLFData]])
 			{
-				HTTPLogWarn(@"%@[%p]: Method expects chunk trailer, but is missing", THIS_FILE, self);
+				NSLog(@"%@[%p]: Method expects chunk trailer, but is missing", THIS_FILE, self);
 				
 				[self handleInvalidRequest:nil];
 				return;
