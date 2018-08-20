@@ -182,7 +182,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 	NSString *valueCopy = [value copy];
 	
 	dispatch_async(serverQueue, ^{
-		documentRoot = valueCopy;
+        self->documentRoot = valueCopy;
 	});
 	
 }
@@ -198,7 +198,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 	__block Class result;
 	
 	dispatch_sync(serverQueue, ^{
-		result = connectionClass;
+        result = self->connectionClass;
 	});
 	
 	return result;
@@ -209,7 +209,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 	HTTPLogTrace();
 	
 	dispatch_async(serverQueue, ^{
-		connectionClass = value;
+        self->connectionClass = value;
 	});
 }
 
@@ -432,7 +432,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 	
 	dispatch_sync(serverQueue, ^{ @autoreleasepool {
 		
-        success = [self->asyncSocket acceptOnInterface:interface port:self->port error:&err];
+        success = [self->asyncSocket acceptOnInterface:self->interface port:self->port error:&err];
 		if (success)
 		{
             HTTPLogInfo(@"%@: Started HTTP server on port %hu", THIS_FILE, [self->asyncSocket localPort]);
@@ -478,17 +478,17 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 			{
 				[connection stop];
 			}
-			[connections removeAllObjects];
-			[connectionsLock unlock];
+            [self->connections removeAllObjects];
+            [self->connectionsLock unlock];
 			
 			// Stop all WebSocket connections the server owns
-			[webSocketsLock lock];
-			for (WebSocket *webSocket in webSockets)
+            [self->webSocketsLock lock];
+            for (WebSocket *webSocket in self->webSockets)
 			{
 				[webSocket stop];
 			}
-			[webSockets removeAllObjects];
-			[webSocketsLock unlock];
+            [self->webSockets removeAllObjects];
+            [self->webSocketsLock unlock];
 		}
 	}});
 }
@@ -498,7 +498,7 @@ static const int httpLogLevel = HTTP_LOG_LEVEL_INFO; // | HTTP_LOG_FLAG_TRACE;
 	__block BOOL result;
 	
 	dispatch_sync(serverQueue, ^{
-		result = isRunning;
+        result = self->isRunning;
 	});
 	
 	return result;

@@ -380,14 +380,15 @@ NSInteger const kPredicateRightOperand = 1;
 
 // If applicationName is nil, this returns the front (key) application.
 -(PFApplicationUIElement *)applicationForName:(NSString*)applicationName
-{
+{   NSURL *appUrlFromName = [NSURL fileURLWithPath:applicationName];
     if (!applicationName) {
         NSRunningApplication *frontApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
         applicationName = [frontApp localizedName];
     }
     NSArray *runningApps = [[NSWorkspace sharedWorkspace] runningApplications];
     for (NSRunningApplication *runningApp in runningApps) {
-        if ([runningApp.localizedName isEqualToString:applicationName]) {
+        NSLog(@"%@", runningApp.executableURL.filePathURL);
+        if ([runningApp.localizedName isEqualToString:applicationName] || [runningApp.bundleURL isEqual:appUrlFromName]) {
             NSURL *appURL = runningApp.bundleURL;
             PFApplicationUIElement *appUIElement = [PFApplicationUIElement applicationUIElementWithURL:appURL delegate:nil];
             return appUIElement;
@@ -674,6 +675,7 @@ NSInteger const kPredicateRightOperand = 1;
 
 -(NSString*) processNameForApplicationName:(NSString*) applicationName
 {
+    //FIXME get PID and relevant name from current running app - see appForName
     NSDictionary *errorDict;
     NSAppleScript *frontMostProcessScript = [[NSAppleScript alloc] initWithSource:[NSString stringWithFormat:@"tell application \"System Events\"\nset application_id to (get the id of application \"%@\" as string)\nset process_name to name of (application processes where bundle identifier is application_id)\nend tell\nreturn item 1 of process_name as text", applicationName]];
     NSString *statusString = [[frontMostProcessScript executeAndReturnError:&errorDict] stringValue];
